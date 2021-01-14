@@ -556,7 +556,7 @@ void calculate (std::string input)
 
 int main ()
 {
-    std::cout << "Function list : SIN , COS, TAN, CTG, EXP, SQRT, +, -, *, /, --" << std::endl << "Const list: PI, E" << std::endl;
+    std::cout << "Function list : SIN , COS, TAN, CTG, EXP, SQRT, +, -, *, /, --, ^" << std::endl << "Const list: PI, E" << std::endl;
     std::cout << "Enter statement: " ;
     std::string input = "";
     //std::string input = toString("(2 + 7) * COS (2 * 4 + x) + 2");
