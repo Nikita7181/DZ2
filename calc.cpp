@@ -545,27 +545,28 @@ void calculate (std::string input)
     int iResult = result;
     if (result - iResult != 0)
     {
-        std::cout << std::fixed << std::setw(10) << result << std::endl;
+        std::cout << std::fixed << std::setw(10) << "The answer: " << result << std::endl;
     }
     else
     {
-        std::cout << std::fixed << std::setw(10) << std::setprecision(0) << result << std::endl;
+        std::cout << std::fixed << std::setw(10) << std::setprecision(0) << "The answer: " << result << std::endl;
     }
     
 }
 
 int main ()
 {
-    std::cout << "function list : SIN , COS, TAN, CTG, EXP, SQRT, +, -, *, /, --" << std::endl << "const list: PI, E" << std::endl;
-    std::cout << "Enter statement: " << std::endl;
+    std::cout << "Function list : SIN , COS, TAN, CTG, EXP, SQRT, +, -, *, /, --" << std::endl << "Const list: PI, E" << std::endl;
+    std::cout << "Enter statement: " ;
     std::string input = "";
     //std::string input = toString("(2 + 7) * COS (2 * 4 + x) + 2");
-   // std::string input = toString("SIN(a-- + 2 * 5) + 4 * 6");
+    //std::string input = toString("SIN(a-- + 2 * 5) + 4 * 6");
     //std::string input = toString("SIN (6--)");
     std::getline(std::cin, input);
-
     std::string tmp = convertToRPN(input);
+    std::cout << "Convert in OPZ: ";
     std::cout << tmp << std::endl;
+    
     calculate(tmp);
-
+    return 0;
 }
