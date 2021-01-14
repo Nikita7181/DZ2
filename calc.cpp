@@ -98,7 +98,7 @@ std::string convertToRPN(std::string input)
                     flagKeyWord = true;
                     keyWordLenght = 3;
                 }
-                else if ((c == 'C') && input[i+1] == 'T' && input[i+2] =='N')
+                else if ((c == 'C') && input[i+1] == 'T' && input[i+2] =='G')
                 {
                     flagKeyWord = true;
                     keyWordLenght = 3;
@@ -556,6 +556,7 @@ void calculate (std::string input)
 
 int main ()
 {
+    std::cout << "function list : SIN , COS, TAN, CTG, EXP, SQRT, +, -, *, /, --" << std::endl << "const list: PI, E" << std::endl;
     std::cout << "Enter statement: " << std::endl;
     std::string input = "";
     //std::string input = toString("(2 + 7) * COS (2 * 4 + x) + 2");
