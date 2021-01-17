@@ -608,6 +608,7 @@ void calculate (std::string input)
 }
 void printInstruction()
 {
+    std::cout << "Const: PI, E" << std::endl << "Function: +, -, *, /, --, ^, SIN, COS, TAN, CTG, EXP, SQRT" << std::endl;
     std::cout << "Instruction: " << std::endl;
     std::cout << "1) Use function SIN(X), COS(X), TAN(X), CTG(X); X - Rad. value" << std::endl;
     std::cout << "2) Use X POW Y or X ^ Y to rise X in power Y" << std::endl;
@@ -626,7 +627,8 @@ int main ()
     
     std::cout << "Enter statement: " << std::endl;
     
-    std::string input;// = toString("2 * (9 * -1)");
+    std::string input;
+    // = toString("2 * (9 * -1)");
     //std::string input = toString("SIN(a-- + 2 * 5) + 4 * 6");
     //std::string input = toString("SIN (6--)");
     std::getline(std::cin, input);
