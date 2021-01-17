@@ -5,12 +5,6 @@
 #include <cmath>
 #include <map>
 
-struct NameValue
-{
-    double value;
-    std::string name;
-};
-
 template<typename T> std::string toString(const T &t)
 {
     std::stringstream ss;
