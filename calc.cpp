@@ -301,9 +301,7 @@ std::string convertToRPN(std::string input)
 }
 
 void calculate (std::string input)
-{
-    std::vector<char*> strStack_;
-    
+{   
     std::vector<double> stack_;
     double whole = 0;
     double fraction = 0;
