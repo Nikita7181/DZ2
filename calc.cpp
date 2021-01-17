@@ -68,7 +68,7 @@ std::string convertToRPN(std::string input)
             }
             
         }
-        else if (i < size - 1 && ((c == '.') || (c == ',')) && ((input[i+1] = '.') || (input[i+1] == ',') ))
+        else if (i < size - 1 && ((c == '.') || (c == ',')) && ((input[i+1] == '.') || (input[i+1] == ',') ))
         {
             std::cout << "Error statement: wrong fractional separator detected";
             return "";
