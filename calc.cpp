@@ -5,11 +5,23 @@
 #include <cmath>
 #include <map>
 
+struct NameValue
+{
+    double value;
+    std::string name;
+};
+
 template<typename T> std::string toString(const T &t)
 {
     std::stringstream ss;
     ss << t;
     return ss.str();
+}
+
+
+void printError ()
+{
+    std::cout << "Error statement, wrong syntax!" << std::endl << std::endl;
 }
 
 std::string convertToRPN(std::string input)
@@ -101,7 +113,8 @@ std::string convertToRPN(std::string input)
     map.insert(std::make_pair(toString("COS"), 3));
     map.insert(std::make_pair(toString("TAN"), 3));
     map.insert(std::make_pair(toString("CTG"), 3));
-    map.insert(std::make_pair(toString("POW"), 2));
+    map.insert(std::make_pair(toString("POW"), 4));
+    map.insert(std::make_pair(toString("^"), 4));
     map.insert(std::make_pair(toString("EXP"), 3));
     map.insert(std::make_pair(toString("SQRT"), 3));
     map.insert(std::make_pair(toString("--"), 3));
@@ -301,14 +314,16 @@ std::string convertToRPN(std::string input)
 }
 
 void calculate (std::string input)
-{   
+{
+    std::vector<char*> strStack_;
+    
     std::vector<double> stack_;
     double whole = 0;
     double fraction = 0;
     const double PI = 3.1415926535;
     const double E = 2.7182818284;
     int pow = 1;
-    bool flag = true;
+    bool flag = false;
     bool flag_pow = false;
     bool negative = false;
     
@@ -365,6 +380,7 @@ void calculate (std::string input)
             }
             else if ((c == 'S') && (i < inputSize - 1) && (input[i+1] == 'I') && (input[i+2] == 'N') )
             {
+                if (stack_.size() == 0) { printError(); return; }
                 double num = stack_.back();
                 stack_.pop_back();
                 double tmp = std::sin(num);
@@ -376,6 +392,7 @@ void calculate (std::string input)
             }
             else if ((c == 'C') && (i < inputSize - 1) && (input[i+1] == 'O') && (input[i+2] == 'S') )
             {
+                if (stack_.size() == 0) { printError(); return; }
                 double num = stack_.back();
                 stack_.pop_back();
                 double tmp = std::cos(num);
@@ -387,6 +404,7 @@ void calculate (std::string input)
             }
             else if ((c == 'T') && (i < inputSize - 1) && (input[i+1] == 'A') && (input[i+2] == 'N') )
             {
+                if (stack_.size() == 0) { printError(); return; }
                 double num = stack_.back();
                 stack_.pop_back();
                 double tmp = std::tan(num);
@@ -417,9 +435,11 @@ void calculate (std::string input)
             }
             else if ((c == 'E') && (i < inputSize - 1) && (input[i+1] == 'X') && (input[i+2] == 'P') )
             {
+                if (stack_.size() == 0) { printError(); return; }
                 double num = stack_.back();
                 stack_.pop_back();
                 
+                if (stack_.size() == 0) { printError(); return; }
                 double tmp = std::exp(num);
                 stack_.push_back(tmp);
                 
@@ -429,9 +449,11 @@ void calculate (std::string input)
             }
             else if ((c == 'S') && (i < inputSize - 2) && (input[i+1] == 'Q') && (input[i+2] == 'R') && (input[i+3] == 'T') )
             {
+                if (stack_.size() == 0) { printError(); return; }
                 double num = stack_.back();
                 stack_.pop_back();
                 
+                if (stack_.size() == 0) { printError(); return; }
                 double tmp = std::sqrt(num);
                 stack_.push_back(tmp);
                 
@@ -441,8 +463,10 @@ void calculate (std::string input)
             }
             else if ((c == 'P') && (i < inputSize - 1) && (input[i+1] == 'O') && (input[i+2] == 'W') )
             {
+                if (stack_.size() == 0) { printError(); return; }
                 double num2 = stack_.back();
                 stack_.pop_back();
+                if (stack_.size() == 0) { printError(); return; }
                 double num1 = stack_.back();
                 stack_.pop_back();
                 
@@ -463,6 +487,7 @@ void calculate (std::string input)
         }
         else if ((c == '.' && flag) || (c == ',' && flag))
         {
+            if (flag_pow) {printError(); return;}
             flag_pow = true;
         }
         else
@@ -477,7 +502,9 @@ void calculate (std::string input)
                     
                     case '+' :
                     {
+                        if (stack_.size() == 0) { printError(); return; }
                         double num2 = stack_.back();
+                        if (stack_.size() == 0) { printError(); return; }
                         stack_.pop_back();
                         double num1 = stack_.back();
                         stack_.pop_back();
@@ -489,6 +516,7 @@ void calculate (std::string input)
                     {
                         if ((i < inputSize) && (input[i+1] == '-'))
                         {
+                            if (stack_.size() == 0) { printError(); return; }
                             double num1 = stack_.back();
                             stack_.pop_back();
                             tmp = num1 - 1;
@@ -501,8 +529,10 @@ void calculate (std::string input)
                         }
                         else
                         {
+                            if (stack_.size() == 0) { printError(); return; }
                             double num2 = stack_.back();
                             stack_.pop_back();
+                            if (stack_.size() == 0) { printError(); return; }
                             double num1 = stack_.back();
                             stack_.pop_back();
                             tmp = num1 - num2;
@@ -512,8 +542,11 @@ void calculate (std::string input)
                     }
                     case '*' :
                     {
+                        if (stack_.size() == 0) { printError(); return; }
                         double num2 = stack_.back();
                         stack_.pop_back();
+                        
+                        if (stack_.size() == 0) { printError(); return; }
                         double num1 = stack_.back();
                         stack_.pop_back();
                         tmp = num1 * num2;
@@ -522,8 +555,11 @@ void calculate (std::string input)
                     }
                     case '/' :
                     {
+                        if (stack_.size() == 0) { printError(); return; }
                         double num2 = stack_.back();
                         stack_.pop_back();
+                        
+                        if (stack_.size() == 0) { printError(); return; }
                         double num1 = stack_.back();
                         stack_.pop_back();
                         tmp = num1 / num2;
@@ -532,8 +568,12 @@ void calculate (std::string input)
                     }
                     case '^' :
                     {
+                        if (stack_.size() == 0) { printError(); return; }
+                        
                         double num2 = stack_.back();
                         stack_.pop_back();
+                        
+                        if (stack_.size() == 0) { printError(); return; }
                         double num1 = stack_.back();
                         stack_.pop_back();
                         tmp = std::pow(num1, num2);
@@ -591,19 +631,26 @@ void calculate (std::string input)
         }
     }
     
+    //stack_.size() > 0 ? stack_.back() : { printError(); return;}
     
-    double result = stack_.size() > 0 ? stack_.back() : 0;
+    if (stack_.size() == 0) { printError(); return; }
+    double result = stack_.back();
+    stack_.pop_back();
+    if (stack_.size() != 0) { printError(); return; }
+    
     int iResult = result;
     if (result - iResult != 0)
     {
-        std::cout << std::fixed << std::setw(10) <<"Result: " << result << std::endl;
+        std::cout << std::fixed << std::setw(10) <<"result: " << result << std::endl;
     }
     else
     {
-        std::cout << std::fixed << std::setw(10) << std::setprecision(0) <<"Result: " << result << std::endl;
+        std::cout << std::fixed << std::setw(10) << std::setprecision(0)<< "result: " << result << std::endl;
     }
     
 }
+
+
 void printInstruction()
 {
     std::cout << "Const: PI, E" << std::endl << "Function: +, -, *, /, --, ^, SIN, COS, TAN, CTG, EXP, SQRT" << std::endl;
@@ -617,6 +664,8 @@ void printInstruction()
     std::cout << "7) You can use variable (eg. val1 or val2) in statement: " << std::endl;
     std::cout << "8) Any math (+,-,/,*) operator must be separated by spaces (eg. \"x + y\" is corect, but \"x+y\" is wrong syntax)" << std::endl;
 }
+    
+
 
 int main ()
 {
@@ -624,15 +673,20 @@ int main ()
     printInstruction();
     
     std::cout << "Enter statement: " << std::endl;
-    
     std::string input;
-    // = toString("2 * (9 * -1)");
+    //std::string input = toString("1 + 8 / 2 * 2 ^ 2"); // 17
+    //std::string input = toString("2 ^ (3 + 5) - 1 * 3"); // 253
+    //std::string input = toString("() - 1");
+    //std::string input = toString("(8 - 1) 2");
+    //std::string input = toString("2 (8 - 1)");
+   // std::string input = toString("1.2 + 1");
+    
     //std::string input = toString("SIN(a-- + 2 * 5) + 4 * 6");
     //std::string input = toString("SIN (6--)");
     std::getline(std::cin, input);
     
     std::string tmp = convertToRPN(input);
-    std::cout << "RPN: "<<  tmp << std::endl;
+    std::cout << tmp << std::endl;
     calculate(tmp);
-    return 0;
+    
 }
